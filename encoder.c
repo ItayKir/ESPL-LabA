@@ -40,7 +40,7 @@ int main(int argc, char* argv[]){
     int c;
 
     bool debug_mode = true;
-    for(int i=1; i < argc; i++){
+    for(int i=1; i < argc; i++){ // Running over the parameters for the program
         // debug printing
         if(debug_mode){
             fprintf(stderr, "%s \n" , argv[i]);
@@ -56,6 +56,22 @@ int main(int argc, char* argv[]){
             key = argv[i] + 2;
         }
 
+        if(strncmp(argv[i], "-i", 2) == 0){ //input
+            infile = fopen(argv[i]+2,"r");
+            if(infile == NULL){
+                fprintf(stderr, "Failed to READ input file '%s' \n", argv[i]+2);
+                return 1;
+            }
+        }
+        
+        if(strncmp(argv[i], "-o", 2) == 0){ //input
+            infile = fopen(argv[i]+2,"w");
+            if(infile == NULL){
+                fprintf(stderr, "Failed to WRITE output file '%s' \n", argv[i]+2);
+                return 1;
+            }
+        } 
+
         // debug flag changes
         if (strncmp(argv[i], "+D", 2) == 0 && strcmp(argv[i] + 2, (char*)password) == 0){
             debug_mode = true;
@@ -64,7 +80,8 @@ int main(int argc, char* argv[]){
             debug_mode = false;
         }
     }
-    while (true){
+
+    while (true){ //encoding
         c = fgetc(infile);
         if(feof(infile)){
             break;
@@ -72,6 +89,13 @@ int main(int argc, char* argv[]){
         c = encode(c);
         fputc(c, outfile);
     }
-    fclose(outfile);
+
+    // closing files
+    if (infile != stdin) {
+    fclose(infile);
+    }
+    if (outfile != stdout) {
+        fclose(outfile);
+}
 }
 
