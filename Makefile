@@ -2,12 +2,12 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -g
 
-TARGET = my_echo
+TARGET = encoder
 
 all: $(TARGET)
 
-$(TARGET): my_echo.c
-	$(CC) $(CFLAGS) my_echo.c -o $(TARGET)
+$(TARGET): encoder.c
+	$(CC) $(CFLAGS) encoder.c -o $(TARGET)
 
 clean:
 	rm -f $(TARGET)
