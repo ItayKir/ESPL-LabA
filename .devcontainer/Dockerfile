@@ -17,6 +17,7 @@ RUN dpkg --add-architecture i386 && \
     valgrind-dbg \
     gdb \
     nasm \
+    git \
     && rm -rf /var/lib/apt/lists/*
 # Create vscode user
 RUN useradd -ms /bin/bash vscode \
