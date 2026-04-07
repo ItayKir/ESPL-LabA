@@ -7,25 +7,30 @@ FILE *infile = NULL;
 FILE *outfile = NULL;
 
 char* key = "A"; // default (0) - no change
+int key_index = 0;
 bool is_addition = true; //default (+)
 
-char encode(char c, int key_index, bool is_addition){
-    if(c < 'a' || c > 'Z'){ // not a letter a-z or A-Z
+char encode(char c, bool is_addition){
+    if(c < 'A' || c > 'z'){ // not a letter a-z or A-Z
         return c;
     }
 
     char base;
-    if(c < 'A'){ //a-z
-        base = 'a';
+    if(c < 'a'){ //A-Z
+        base = 'A';
     }
-    else{ //A-Z
-        base ='A';
+    else{ //a-z
+        base ='a';
     }
-    int shift = (key[key_index] - base);
+    int shift = (key[key_index] - 'A');
+    if(!is_addition){
+        shift = -shift;
+    }
+
     key_index++;
     if(key[key_index] == '\0')
         key_index = 0;
-    return (c + shift)%26 + base;
+    return (c - base + shift + 26) % 26 + base;
 }
 
 
@@ -60,13 +65,12 @@ int main(int argc, char* argv[]){
             debug_mode = false;
         }
     }
-    int key_index = 0;
     while (true){
         c = fgetc(infile);
         if(feof(infile)){
             break;
         }
-        c = encode(c);
+        c = encode(c, is_addition);
         fputc(c, outfile);
     }
     fclose(outfile);
