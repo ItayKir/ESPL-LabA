@@ -65,8 +65,8 @@ int main(int argc, char* argv[]){
         }
         
         if(strncmp(argv[i], "-o", 2) == 0){ //input
-            infile = fopen(argv[i]+2,"w");
-            if(infile == NULL){
+            outfile = fopen(argv[i]+2,"w");
+            if(outfile == NULL){
                 fprintf(stderr, "Failed to WRITE output file '%s' \n", argv[i]+2);
                 return 1;
             }
